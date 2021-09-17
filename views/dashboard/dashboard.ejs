@@ -1,5 +1,12 @@
 <p>Only for previlaged people</p>
 <h1>Welcome <%= user_data['first_name'] %> <%= user_data['last_name'] %>  </h1>
+
+<a href="/payment/makeTransaction">
+    <button>
+        Do A Transaction
+    </button>
+</a>
+
 <form action="/logout" method="POST">
     <input type="submit" name="Logout">
 </form>

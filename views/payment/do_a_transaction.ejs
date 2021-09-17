@@ -1,0 +1,47 @@
+<h1>
+    Hie <%= user_data.first_name %> <%= user_data.last_name %>  
+</h1>
+<h3>
+    your current balance is <%= user_data.current_balance %> 
+</h3>
+
+<form action="/payment/makeTransaction" method="POST">
+    <input type="hidden" name="sender_id" value="<%=  user_data._id %>">
+    <label for="sender_email">
+        Your Email
+    </label>
+    <input type="email" name="sender_email" id="sender_email" value="<%= user_data.email%>" readonly> <br>
+    <label for="sender_account_number">
+        Your account number
+    </label>
+    <input type="number" name="sender_account_number" id="sender_account_number" value="<%= user_data.account_number%>" readonly> <br>
+    <label for="reciever_account_number">
+        Account number of Reciever
+    </label>
+    <input type="number" name="reciever_account_number" id="reciever_account_number" >
+    <p>
+        <% if (errors && errors.reciever_account_number != 'undefned') { %>
+            <%= errors.reciever_account_number %> 
+        <% } %>
+    </p>
+    <label for="amount">
+        amount
+    </label>
+    <input type="number" name="amount" id="amount" value="1">
+    <p>
+        <% if (errors && errors.amount) { %>
+            <%= errors.amount %> 
+        <% } %>
+    </p>
+    <label for="pin">
+        Pin
+    </label>
+    <input type="password" name="pin" id="pin" value=""> <br>
+    <p>
+        <% if (errors && errors.pin) { %>
+            <%= errors.pin %> 
+        <% } %>
+    </p>
+    <input type="submit" name="doAtransaction" id="" value="Make it">
+</form>
+<!-- min="1" max="<%= user_data.current_balance%>"  -->
