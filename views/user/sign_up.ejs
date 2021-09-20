@@ -1,3 +1,4 @@
+<%- include('../templates/navbar'); %> 
 <form action="/user/signup" method="POST">
     <input type="text" name="first_name" placeholder="first_name">
     <br>
@@ -5,7 +6,7 @@
     <br>
     <input type="number" name="mobile_number" placeholder="mobile_number">
     <br>
-    <select name="gender" id="">
+    <select name="gender" id="gender">
         <option value="male">Male</option>
         <option value="Female">Female</option>
         <option value="others">Others</option>
@@ -25,3 +26,4 @@
     <br>
     <input type="submit" name="add" value="ADD">
 </form> 
+<%- include('../templates/footer'); %> 

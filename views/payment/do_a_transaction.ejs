@@ -1,3 +1,4 @@
+<%- include('../templates/navbar'); %> 
 <h1>
     Hie <%= user_data.first_name %> <%= user_data.last_name %>  
 </h1>
@@ -44,4 +45,4 @@
     </p>
     <input type="submit" name="doAtransaction" id="" value="Make it">
 </form>
-<!-- min="1" max="<%= user_data.current_balance%>"  -->
+<%- include('../templates/footer'); %>   
