@@ -193,12 +193,34 @@ app.post('/payment/makeTransaction',async (req,res)=>{
             reciever_account_number: reciever_account_number,
             amount: amount
         });
-
+        console.log(modified_reciever_amount);
         addTrasaction.save().then(()=>{
             console.log('transaction done');
         }).catch(err=>console.log(err));
         res.redirect('/dashboard/dashboard');
     }
+});
+
+app.get('/payment/history',isAuth,async (req,res)=>{
+    const id = req.session.isAuth.id;
+    const user_data = await registerModel.findOne({_id: id});
+    const user_account_number = user_data.account_number;
+    const sending_history = await transaction_history.find({sender_account_number: user_account_number});
+    let data_to_send = [];
+    for(let history of sending_history){
+        let data = {};
+        let temp = data_to_send;
+        let acc_number = history.reciever_account_number;
+        let user_data = await registerModel.findOne({ account_number: acc_number });
+        data['reciever_acc_number'] = acc_number;
+        data['reciever_name'] = user_data.first_name + " " + user_data.last_name;
+        data['Amount'] = history.amount;
+        data['on'] = history.date;
+        temp.push(data);
+        data_to_send = temp;
+    }
+    console.log(data_to_send);
+    res.render('payment/history',{transaction_history: data_to_send});
 });
 
 //create port

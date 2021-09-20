@@ -6,6 +6,7 @@
     your current balance is <%= user_data.current_balance %> 
 </h3>
 
+
 <form action="/payment/makeTransaction" method="POST">
     <input type="hidden" name="sender_id" value="<%=  user_data._id %>">
     <label for="sender_email">

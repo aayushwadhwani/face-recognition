@@ -1,0 +1,33 @@
+<%- include('../templates/navbar'); %>
+<% if (transaction_history.length != 0) { %>
+  <table class="table">
+    <thead class="thead-dark">
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Account Number</th>
+        <th scope="col">Name</th>
+        <th scope="col">Amount</th>
+        <th scope="col">Date</th>
+      </tr>
+    </thead>
+    <% for( let i = 0; i < transaction_history.length; i++ ) { %>
+      <tbody>
+        <tr>
+          <th scope="row"><%= i+1 %> </th>
+          <td><%= transaction_history[i]['reciever_acc_number']; %> </td>
+          <td><%= transaction_history[i]['reciever_name']; %></td>
+          <td><%= transaction_history[i]['Amount']; %></td>
+          <td><%= transaction_history[i]['on']; %></td>
+        </tr>
+      </tbody>
+    <% } %>
+</table>
+<% }else{ %>
+  <p>No transactions done yet</p>
+  <a href="/payment/makeTransaction">
+    <button class="btn btn-success">
+      Make Transaction
+    </button>
+  </a>
+<% } %> 
+<%- include('../templates/footer'); %> 
