@@ -43,6 +43,9 @@ const detailsSchema = mongoose.Schema({
     created_at: {
         type: Date,
         default: Date.now
+    },
+    face_url:{
+        type: String
     }
 });
 

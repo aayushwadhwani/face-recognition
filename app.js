@@ -18,7 +18,8 @@ const store = new mongodbSession({
 
 
 //middlewears
-app.use(express.urlencoded({extended: true}));
+app.use(express.static(__dirname+'/'));
+app.use(express.urlencoded({extended: true, limit:'50mb'}));
 const isAuth = (req,res,next)=>{
     if(req.session.isAuth){
         next();
@@ -69,19 +70,15 @@ app.post('/user/signup',async (req,res)=>{
         errors['password'] = 'Password should have atleast 8 characters';
     }
     if(password != confirm_password){
-        console.log(password);
-        console.log(confirm_password);
         errors['password'] = 'Password and Confirm password Did not match';
     }
     if(pin.length != 4){
         errors['pin'] = 'Pin has to 4 ditis long';
     }
-    console.log(errors);
     if(Object.keys(errors).length == 0){
         registerModel.findOne({email: email}).then(user=>{
             if(user){
                 errors['email'] = 'User Already exists'
-                console.log(errors);
                 res.render('user/sign_up');
             }else{
                 registerModel.findOne({account_number: account_number}).then(user=>{
@@ -112,6 +109,19 @@ app.post('/user/signup',async (req,res)=>{
     }
 });
 
+app.get('/user/face-detection',isAuth,async (req,res)=>{
+    // console.log(req.session.isAuth.id);
+    const id = req.session.isAuth.id;
+    const user = await registerModel.findOne({_id:id});
+    const account_number = user.account_number;
+    res.render('user/face-detection',{account_number});
+});
+
+app.post('/user/face-detection',isAuth,async(req,res)=>{
+    const update = await registerModel.updateOne({account_number: req.body.account_number},{face_url: req.body.image_link}).catch(err=>console.log(err));
+    res.redirect('/dashboard/dashboard');
+});
+
 app.post('/user/login',async (req,res)=>{
     const {email, password} = req.body;
     let user = await registerModel.findOne({email});
@@ -140,9 +150,9 @@ app.post('/logout',(req,res)=>{
 app.get('/dashboard/dashboard',isAuth,async (req,res)=>{
     const user = req.session.isAuth.id;
     const user_id = user.valueOf();
-    console.log(typeof user_id);
+    // console.log(typeof user_id);
     const user_data = await registerModel.findOne({_id: user_id});
-    console.log(user_data);
+    // console.log(user_data);
     res.render('dashboard/dashboard',{user_data});
 });
 
@@ -151,7 +161,7 @@ app.get('/dashboard/dashboard',isAuth,async (req,res)=>{
 app.get('/payment/makeTransaction',isAuth,async (req,res)=>{
     const id_obj = req.session.isAuth.id;
     const user_data = await registerModel.findOne({_id: id_obj});
-    console.log(user_data);
+    // console.log(user_data);
     res.render('payment/do_a_transaction',{errors:false,user_data});
 });
 
@@ -193,7 +203,7 @@ app.post('/payment/makeTransaction',async (req,res)=>{
             reciever_account_number: reciever_account_number,
             amount: amount
         });
-        console.log(modified_reciever_amount);
+        // console.log(modified_reciever_amount);
         addTrasaction.save().then(()=>{
             console.log('transaction done');
         }).catch(err=>console.log(err));
@@ -219,7 +229,7 @@ app.get('/payment/history',isAuth,async (req,res)=>{
         temp.push(data);
         data_to_send = temp;
     }
-    console.log(data_to_send);
+    // console.log(data_to_send);
     res.render('payment/history',{transaction_history: data_to_send});
 });
 

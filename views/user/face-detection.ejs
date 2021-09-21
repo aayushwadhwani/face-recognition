@@ -1,0 +1,15 @@
+<%- include('../templates/navbar'); %>
+<div class="face_detection_body">
+    <video src="" muted autoplay width="720" height="540" class="from_image"></video>
+</div>
+<form action="" method="POST" class="above text-center">
+    <input type="hidden" name="account_number" value="<%= account_number %>">
+    <input type="textarea" name="image_link" value="" class="image_link" style="display: none;">
+    <input type="submit" name="capture" class="postt" value="clicked" style="display: none;">
+</form>
+<div class="text-center">
+    <button class="btn btn-outline-primary click " style="position: fixed;"> CAPTURE </button>
+</div>
+<script defer src="/public/js/face-api.min.js" ></script>
+<script defer src="/public/js/detect-face.js" ></script>
+<%- include('../templates/footer'); %>
