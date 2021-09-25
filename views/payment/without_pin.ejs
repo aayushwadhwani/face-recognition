@@ -1,3 +1,20 @@
 <%- include('../templates/navbar'); %>
 <p>Helllo <%= user_data.first_name %></p>
+<form action="/payment/transactionFace" method="POST">
+    <label for="sender_email">Your email:</label>
+    <input type="sender_email" id="sender_email" name="sender_email" value="<%= user_data.email %>" readonly> <br>
+    <label for="sender_account_number">Your account number:</label>
+    <input type="text" name="sender_account_number" id="sender_account_number" value="<%= user_data.account_number %>" readonly><br>
+    <label for="reciever_account_number">Send to:(account number)</label>
+    <input type="number" name="reciever_account_number" id="reciever_account_number"><br>
+    <% if (errors && errors.reciever_account_number) { %>
+        <p><%= errors.reciever_account_number %></p>
+    <% } %>
+    <label for="amount">Amount:</label>
+    <input type="number" name="amount" id="amount"><br>
+    <% if (errors && errors.amount) { %>
+        <p><%= errors.amount %></p>
+    <% } %>
+    <input type="submit" name="make_it" value="Pay">
+</form>
 <%- include('../templates/footer'); %>

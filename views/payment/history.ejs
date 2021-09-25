@@ -8,6 +8,7 @@
         <th scope="col">Name</th>
         <th scope="col">Amount</th>
         <th scope="col">Date</th>
+        <th scope="col">Via</th>
       </tr>
     </thead>
     <% for( let i = 0; i < transaction_history.length; i++ ) { %>
@@ -18,6 +19,7 @@
           <td><%= transaction_history[i]['reciever_name']; %></td>
           <td><%= transaction_history[i]['Amount']; %></td>
           <td><%= transaction_history[i]['on']; %></td>
+          <td><%= transaction_history[i]['via']; %></td>
         </tr>
       </tbody>
     <% } %>

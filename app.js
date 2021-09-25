@@ -125,15 +125,20 @@ app.post('/user/face-detection',isAuth,async(req,res)=>{
 app.post('/user/login',async (req,res)=>{
     const {email, password} = req.body;
     let user = await registerModel.findOne({email});
+    let errors = {};
     if(!user){
-        return res.redirect('/user/login');
+        errors['email'] = 'Email not found! Signup first';
     }
     if(password != user.password){
-        return res.redirect('/user/login');
+        errors['password'] = 'Incorrect Password';
     }
-
-    req.session.isAuth = {isAuth: true, id: user._id};
-    res.redirect('/dashboard/dashboard');
+    if(Object.keys(errors).length == 0){
+        req.session.isAuth = {isAuth: true, id: user._id};
+        const update_user = await registerModel.updateOne({email:email},{$set :{transaction_via_face: false}}).catch(err=> console.log(err));
+        res.redirect('/dashboard/dashboard');
+    }else{
+        res.render('user/login',{errors});
+    }
 });
 
 
@@ -208,7 +213,8 @@ app.post('/payment/makeTransaction',async (req,res)=>{
         const addTrasaction = new transaction_history({
             sender_account_number: sender_account_number,
             reciever_account_number: reciever_account_number,
-            amount: amount
+            amount: amount,
+            via: 'Pin'
         });
         // console.log(modified_reciever_amount);
         addTrasaction.save().then(()=>{
@@ -232,7 +238,8 @@ app.get('/payment/history',isAuth,async (req,res)=>{
         data['reciever_acc_number'] = acc_number;
         data['reciever_name'] = user_data.first_name + " " + user_data.last_name;
         data['Amount'] = history.amount;
-        data['on'] = history.date;
+        data['on'] = history.date.toDateString();
+        data['via'] = history.via;
         temp.push(data);
         data_to_send = temp;
     }
@@ -244,7 +251,11 @@ app.get('/payment/faceDetection',isAuth,async (req,res)=>{
     console.log(req.session.isAuth.id);
     const user_id = req.session.isAuth.id;
     const user_data = await registerModel.findOne({_id: user_id});
-    res.render('payment/detect_face',{user_data});
+    if(!user_data.face_url){
+        res.redirect('/dashboard/dashboard');
+    }else{
+        res.render('payment/detect_face',{user_data});
+    }
 });
 
 app.post('/payment/faceDetection',async(req,res)=>{
@@ -264,9 +275,48 @@ app.get('/payment/transactionFace',isAuth,async(req,res)=>{
     const user_data = await registerModel.findOne({_id: user_id});
     if(user_data.transaction_via_face){
         console.log('detected and came');
-        res.render('payment/without_pin',{user_data});
+        res.render('payment/without_pin',{user_data,errors:false});
     }else{
         res.redirect('/dashboard/dashboard');
+    }
+});
+
+app.post('/payment/transactionFace',async (req,res)=>{
+    const {sender_email, sender_account_number, reciever_account_number, amount} = req.body;
+    let errors = {};
+    if(sender_account_number == reciever_account_number){
+        errors['reciever_account_number'] = 'Cannot transfer to self';
+    }
+    const reciever_details = await registerModel.findOne({account_number: reciever_account_number});
+    if(!reciever_details){
+        errors['reciever_account_number'] = 'No such user found';
+    }
+    const sender_details = await registerModel.findOne({account_number: sender_account_number});
+    if(Number(amount) <= 0){
+        errors['amount'] = 'Amount cannot be zero';
+    }
+    console.log(amount);
+    console.log(sender_details.current_balance);
+    if(Number(amount) > Number(sender_details.current_balance)){
+        errors['amount'] = 'Amount excedded current balance';
+    }
+    if(Object.keys(errors).length == 0){
+        const sender_new_balance = Number(sender_details.current_balance) - Number(amount);
+        const reciever_new_balance = Number(reciever_details.current_balance) + Number(amount);
+        const addTrasaction = new transaction_history({
+            sender_account_number: sender_account_number,
+            reciever_account_number: reciever_account_number,
+            amount: amount,
+            via: 'Face Recognition'
+        });
+        addTrasaction.save().then(()=>{
+            console.log('transaction done');
+        }).catch(err=>console.log(err));
+        const update_sender = await registerModel.updateOne({account_number: sender_account_number},{$set: {current_balance: sender_new_balance, transaction_via_face:false}},{upsert: true}).catch(err=> console.log(err));
+        const update_reciever = await registerModel.updateOne({account_number: reciever_account_number},{$set: {current_balance: reciever_new_balance}},{upsert: true}).catch(err=> console.log(err));
+        res.redirect('/dashboard/dashboard');
+    }else{
+        res.render('payment/without_pin',{user_data: sender_details, errors});
     }
 });
 

@@ -16,6 +16,9 @@ const transaction_history_schema = mongoose.Schema({
     date:{
         type: Date,
         default: Date.now
+    },
+    via:{
+        type: String
     }
 });
 
