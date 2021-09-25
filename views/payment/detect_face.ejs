@@ -1,0 +1,21 @@
+<%- include('../templates/navbar'); %>
+<div class="face_detection_body">
+    <video src="" muted autoplay width="720" height="540" class="from_image"></video>
+</div>
+
+<div class="text-center" style="margin: -5%;">
+    <p><%= user_data.account_number %></p>
+    <form action="/payment/faceDetection" method="POST">
+        <input type="hidden" class="person_name" name="person_name" value="<%= user_data.first_name %>">
+        <input type="hidden" name="can_do_transaction" class="can_do_transaction" value="false">
+        <input type="submit" name="can_do" class="can_do" value="clicked" style="display: none;">
+        <input type="hidden" name="account_number" value="<%= user_data.account_number %>">
+    </form>
+    <button class="btn btn-outline-success capture">
+        Capture
+    </button>
+</div>
+<input type="hidden" class="personimg" name="personimg" value="<%= user_data.face_url %>">
+<script defer src="/public/js/face-api.min.js" ></script>
+<script defer src="/public/js/detect_for_payment.js"></script>
+<%- include('../templates/footer'); %> 

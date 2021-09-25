@@ -148,21 +148,28 @@ app.post('/logout',(req,res)=>{
 
 //dashboard section
 app.get('/dashboard/dashboard',isAuth,async (req,res)=>{
+    let is_there = false;
     const user = req.session.isAuth.id;
     const user_id = user.valueOf();
     // console.log(typeof user_id);
     const user_data = await registerModel.findOne({_id: user_id});
-    // console.log(user_data);
-    res.render('dashboard/dashboard',{user_data});
+    if(user_data.face_url){
+        is_there = true;
+    }
+    res.render('dashboard/dashboard',{user_data,is_there});
 });
 
 
 //payment section
 app.get('/payment/makeTransaction',isAuth,async (req,res)=>{
+    let is_there = false;
     const id_obj = req.session.isAuth.id;
     const user_data = await registerModel.findOne({_id: id_obj});
     // console.log(user_data);
-    res.render('payment/do_a_transaction',{errors:false,user_data});
+    if(user_data.face_url){
+        is_there = true;
+    }
+    res.render('payment/do_a_transaction',{errors:false,user_data,is_there});
 });
 
 app.post('/payment/makeTransaction',async (req,res)=>{
@@ -232,6 +239,37 @@ app.get('/payment/history',isAuth,async (req,res)=>{
     // console.log(data_to_send);
     res.render('payment/history',{transaction_history: data_to_send});
 });
+
+app.get('/payment/faceDetection',isAuth,async (req,res)=>{
+    console.log(req.session.isAuth.id);
+    const user_id = req.session.isAuth.id;
+    const user_data = await registerModel.findOne({_id: user_id});
+    res.render('payment/detect_face',{user_data});
+});
+
+app.post('/payment/faceDetection',async(req,res)=>{
+    console.log(req.body);
+    const {can_do_transaction, account_number} = req.body;
+    if(can_do_transaction == 'true'){
+        const update = await registerModel.updateOne({account_number: account_number},{transaction_via_face: true}).catch(err=>console.log(err));
+        res.redirect('/payment/transactionFace');
+    }else{
+        const update = await registerModel.updateOne({account_number: account_number},{transaction_via_face: false}).catch(err=>console.log(err));
+        res.redirect('/dashboard/dashboard');
+    }
+});
+
+app.get('/payment/transactionFace',isAuth,async(req,res)=>{
+    const user_id = req.session.isAuth.id;
+    const user_data = await registerModel.findOne({_id: user_id});
+    if(user_data.transaction_via_face){
+        console.log('detected and came');
+        res.render('payment/without_pin',{user_data});
+    }else{
+        res.redirect('/dashboard/dashboard');
+    }
+});
+
 
 //create port
 app.listen(3000,()=>{

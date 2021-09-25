@@ -46,6 +46,10 @@ const detailsSchema = mongoose.Schema({
     },
     face_url:{
         type: String
+    },
+    transaction_via_face: {
+        type: Boolean,
+        default: false
     }
 });
 
