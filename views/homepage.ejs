@@ -1,5 +1,5 @@
 <%- include('./templates/navbar'); %>
-<a href="/user/signup">
+<!-- <a href="/user/signup">
     <button class="btn btn-success m-5">
         Sign up
     </button>
@@ -9,5 +9,33 @@
     <button class="btn btn-success m-5">
         Login
     </button>
-</a>
+</a> -->
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-12 col-md-6 p-5 ml-3">
+            <div class="headings mb-5">
+                <p class="h1 mb-5">Welcome to onlinePay</p>
+                <p class="h3">We are working on a plan where payment through face recognition is made possible</p>
+            </div>
+            <a href="/user/login">
+                <button class="btn btn-outline-primary mb-5">
+                    Get Started
+                </button>
+            </a>
+            <p class="h3">Feactures</p>
+            <div class="key_takeaway_homepage ml-1">
+                <p class="h4"><i class="fas fa-hand-point-right"></i> Transaction Through Pin</p>
+                <p class="h4"><i class="fas fa-hand-point-right"></i> Face Detection Technology </p>
+                <p class="h4"><i class="fas fa-hand-point-right"></i> Transaction Through Face-Recognition </p>
+            </div>
+        </div>
+        <div class="col image_section_homepage">
+            <div class="image_homepage">
+                <img src="/public/images/homepage.svg" alt="homepage">
+            </div>
+        </div>
+    </div>
+</div> 
+
 <%- include('./templates/footer'); %> 

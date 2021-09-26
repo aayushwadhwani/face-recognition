@@ -1,0 +1,22 @@
+body{
+    background-color: #becff8;
+    /* color: white; */
+}
+
+nav{
+    font-size: 20px;
+}
+
+.btn-outline-primary:hover{
+    background-color: #414535;
+    border-color: #414535;
+}
+
+.btn-outline-primary{
+    border-color: #414535;
+    color: black;
+}
+
+.btn{
+    border-radius: 6px;
+}

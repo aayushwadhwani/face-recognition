@@ -1,0 +1,31 @@
+.headings{
+    /* background-color: red; */
+    margin-top: 120px;
+    font-size: 42px;
+}
+
+.image_homepage img{
+    /* background-color: red; */
+    width: 350px;
+    height: 350px;
+    margin-top: 16%;
+    margin-left: 30%;
+}
+
+
+@media only screen and (max-width: 764px){
+
+    .image_section_homepage{
+        display: none;
+    }
+    .key_takeaway_homepage p{
+        font-size: 18px;
+    }
+}
+
+@media only screen and (max-width: 1080px) and (min-width: 764px)  {
+    .image_homepage img{
+        margin-top: 100px;
+        width: 250px;
+    }
+}

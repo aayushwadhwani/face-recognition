@@ -150,6 +150,13 @@ app.post('/logout',(req,res)=>{
     });
 });
 
+app.get('/logout',(req,res)=>{
+    req.session.destroy((err)=>{
+        if(err) throw err;
+        res.redirect('/');
+    });
+});
+
 
 //dashboard section
 app.get('/dashboard/dashboard',isAuth,async (req,res)=>{
