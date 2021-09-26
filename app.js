@@ -51,7 +51,7 @@ app.get('/user/signup',(req,res)=>{
 });
 
 app.get('/user/login',(req,res)=>{
-    res.render('user/login');
+    res.render('user/login',{errors: false,previous_data:false});
 });
 
 app.post('/user/signup',async (req,res)=>{
@@ -122,22 +122,25 @@ app.post('/user/face-detection',isAuth,async(req,res)=>{
     res.redirect('/dashboard/dashboard');
 });
 
-app.post('/user/login',async (req,res)=>{
+app.post('/user/login',async (req,res)=>{y
     const {email, password} = req.body;
     let user = await registerModel.findOne({email});
     let errors = {};
     if(!user){
         errors['email'] = 'Email not found! Signup first';
     }
-    if(password != user.password){
-        errors['password'] = 'Incorrect Password';
+    if(user){
+        if(password != user.password){
+            errors['password'] = 'Incorrect Password';
+        }
     }
+
     if(Object.keys(errors).length == 0){
         req.session.isAuth = {isAuth: true, id: user._id};
         const update_user = await registerModel.updateOne({email:email},{$set :{transaction_via_face: false}}).catch(err=> console.log(err));
         res.redirect('/dashboard/dashboard');
     }else{
-        res.render('user/login',{errors});
+        res.render('user/login',{errors,previous_data: req.body});
     }
 });
 

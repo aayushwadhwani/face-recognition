@@ -1,10 +1,44 @@
 <%- include('../templates/navbar'); %> 
-<p>This is login page</p>
-<form action="/user/login" method="POST">
-    <input type="email" name="email">
-    <br>
-    <input type="password" name="password">
-    <br>
-    <input type="submit" name="login">
-</form>
+<!-- <p>This is login page</p> -->
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-12 col-md-6 p-5 ml-3">
+            <div class="container-fluid form-login">
+                <form action="/user/login" method="POST">
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" class="form-control" name="email" id="email" required
+                        <% if(previous_data && previous_data.email){ %>
+                            value="<%= previous_data.email %>"
+                        <% } %>  
+                        >
+                        <% if(errors && errors.email) { %> 
+                            <p class="text-warning"><%= errors.email %> </p>
+                        <% } %> 
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" name="password" id="password" class="form-control" required
+                        <% if(previous_data && previous_data.password){ %>
+                            value="<%= previous_data.password %>"
+                        <% } %> 
+                        >
+                        <% if(errors && errors.password) { %> 
+                            <p class="text-warning"><%= errors.password %> </p>
+                        <% } %> 
+                    </div>
+                    <div class="text-center">
+                        <input type="submit" name="login" value="Login" class="btn btn-outline-primary">
+                    </div>
+                </form>
+                <p class="signup-text"> Don't have an Account? <a href="/user/signup">Signup</a> </p>
+            </div>
+        </div>
+        <div class="col image_section_homepage">
+            <div class="image_homepage">
+                <img src="/public/images/login.svg" alt="homepage">
+            </div>
+        </div>
+    </div>
+</div> 
 <%- include('../templates/footer'); %> 

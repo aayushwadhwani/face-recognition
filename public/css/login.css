@@ -1,0 +1,23 @@
+.form-login{
+    margin-left: -8px;
+    margin-top: 50px;
+}
+
+.form-group label, .signup-text, .form-login p{
+    font-size: 20px;
+}
+
+.signup-text{
+    margin-top: 20px;
+    text-align: center;
+}
+
+.signup-text a, .signup-text a:hover{
+    text-decoration: none;
+    color: #CCDBFD;
+}
+
+.signup-text a:hover{
+    color: #ced2dc;
+
+}

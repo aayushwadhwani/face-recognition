@@ -1,6 +1,6 @@
 body{
-    background-color: #becff8;
-    /* color: white; */
+    background-color: #40798C;
+    color: #ced2dc;
 }
 
 nav{
@@ -8,13 +8,14 @@ nav{
 }
 
 .btn-outline-primary:hover{
-    background-color: #414535;
-    border-color: #414535;
+    background-color: #ced2dc;
+    border-color: black;
+    color: black;
 }
 
 .btn-outline-primary{
-    border-color: #414535;
-    color: black;
+    border-color: #ced2dc;
+    color: #ced2dc;
 }
 
 .btn{
