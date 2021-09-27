@@ -40,18 +40,18 @@ app.set('view engine','ejs');
 
 //homepage section
 app.get('/',(req,res)=>{
-    res.render('homepage');
+    res.render('homepage',{user_data:false});
 });
 
 
 
 //user section
 app.get('/user/signup',(req,res)=>{
-    res.render('user/sign_up',{errors:false,previous_data:false});
+    res.render('user/sign_up',{errors:false,previous_data:false,user_data:false});
 });
 
 app.get('/user/login',(req,res)=>{
-    res.render('user/login',{errors: false,previous_data:false});
+    res.render('user/login',{errors: false,previous_data:false,user_data:false});
 });
 
 app.post('/user/signup',async (req,res)=>{
@@ -83,11 +83,11 @@ app.post('/user/signup',async (req,res)=>{
         registerModel.findOne({email: email}).then(user=>{
             if(user){
                 errors['email'] = 'User Already exists'
-                res.render('user/sign_up',{errors,previous_data:req.body});
+                res.render('user/sign_up',{errors,previous_data:req.body,user_data:false});
             }else{
                 registerModel.findOne({account_number: account_number}).then(user=>{
                     if(user){
-                        res.render('user/sign_up',{errors,previous_data:req.body});
+                        res.render('user/sign_up',{errors,previous_data:req.body,user_data:false});
                     };
                 });
                 const newUser = new registerModel({
@@ -109,7 +109,7 @@ app.post('/user/signup',async (req,res)=>{
             }
         });
     }else{
-        res.render('user/sign_up',{errors,previous_data:req.body});
+        res.render('user/sign_up',{errors,previous_data:req.body,user_data:false});
     }
 });
 
@@ -144,7 +144,7 @@ app.post('/user/login',async (req,res)=>{
         const update_user = await registerModel.updateOne({email:email},{$set :{transaction_via_face: false}}).catch(err=> console.log(err));
         res.redirect('/dashboard/dashboard');
     }else{
-        res.render('user/login',{errors,previous_data: req.body});
+        res.render('user/login',{errors,previous_data: req.body,user_data:false});
     }
 });
 
@@ -257,8 +257,7 @@ app.get('/payment/history',isAuth,async (req,res)=>{
         temp.push(data);
         data_to_send = temp;
     }
-    // console.log(data_to_send);
-    res.render('payment/history',{transaction_history: data_to_send});
+    res.render('payment/history',{transaction_history: data_to_send,user_data:true});
 });
 
 app.get('/payment/faceDetection',isAuth,async (req,res)=>{

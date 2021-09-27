@@ -1,34 +1,55 @@
-<%- include('../templates/navbar'); %> 
-<p>Only for previlaged people</p>
-<h1>Welcome <%= user_data['first_name'] %> <%= user_data['last_name'] %>  </h1>
-<a href="/payment/makeTransaction">
-    <button>
-        Do A Transaction Using Pin
-    </button>
-</a>
-
-<% if(is_there) { %>
-    <a href="/payment/faceDetection">
-        <button>
-            Do A Transaction Using Face Detection
-        </button>
-    </a>
-<% } %>  
-
-<a href="/payment/history">
-    <button>
-        See Outgoing Transactions 
-    </button>
-</a>
-
-<a href="/user/face-detection">
-    <button>
-        Save A Image
-    </button>
-</a>
-
-<form action="/logout" method="POST">
+<%- include('../templates/navbar'); %>
+    <!-- <p>Only for previlaged people</p> -->
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-12 col-md-6 p-5 ml-3">
+                <div class="headings headings-dashboard">
+                    <p class="h1">Hello,</p>
+                    <p class="h3"><%= user_data['first_name'] %> <%= user_data['last_name'] %></p>
+                </div>
+                <div class="dashboard-menu">
+                    <p class="h4">Want to Do Transaction through Pin?</p>
+                    <div class="">
+                        <a href="/payment/makeTransaction">
+                            <button class="btn btn-outline-primary">
+                                Click Here
+                            </button>
+                        </a>
+                    </div>
+                </div>
+                <% if(is_there) { %>
+                    <div class="dashboard-menu">
+                        <p class="h4">Wanna Do Transaction through Face Detection?</p>
+                        <div class="">
+                            <a href="/payment/faceDetection">
+                                <button class="btn btn-outline-primary">
+                                    click Here
+                                </button>
+                            </a>
+                        </div>
+                    </div>
+                <% } %>
+                <div class="dashboard-menu">
+                    <p class="h4">Want to see you Transacion History?</p>
+                    <div class="">
+                        <a href="/payment/history">
+                            <button class="btn btn-outline-primary">
+                                Click Here
+                            </button>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="col image_section_homepage">
+                <div class="image_homepage">
+                    <img src="/public/images/dashboard.png" alt="homepage">
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- <form action="/logout" method="POST">
     <input type="submit" name="Logout" value="Logout">
-</form>
+</form> -->
 
-<%- include('../templates/footer'); %>
+    <!-- <img src="/public/images/dashboard.svg" alt=""> -->
+    <%- include('../templates/footer'); %>

@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="/public/css/login.css">
     <link rel="stylesheet" href="/public/css/navbar.css">
     <link rel="stylesheet" href="/public/css/homepage.css">
+    <link rel="stylesheet" href="/public/css/dashboard.css">
     <title>onlinePay</title>
 </head>
 <body>
@@ -20,15 +21,24 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
           <ul class="navbar-nav"> 
-            <li class="nav-item">
-              <a class="nav-link" href="/user/login">Login <span class="sr-only">(current)</span></a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/user/signup">Signup</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/logout">Logout</a>
-            </li>
+            <% if (user_data) { %>
+              <li class="nav-item">
+                <a href="/dashboard/dashboard" class="nav-link">Dashboard</a>
+              </li>
+              <li class="nav-item">
+                <a href="/user/face-detection" class="nav-link">Save/Update Face</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/logout">Logout</a>
+              </li>
+            <% }else{ %>
+              <li class="nav-item">
+                <a class="nav-link" href="/user/login">Login <span class="sr-only">(current)</span></a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/user/signup">Signup</a>
+              </li>
+            <% } %>
           </ul>
         </div>
       </nav>
