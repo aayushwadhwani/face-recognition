@@ -15,16 +15,17 @@
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-light ml-5">
-        <a class="navbar-brand" href="/">onlinePay</a>
+        <% if (user_data) { %>
+          <a class="navbar-brand" href="/dashboard/dashboard">onlinePay</a>
+        <% }else{ %>
+          <a class="navbar-brand" href="/">onlinePay</a>
+        <% } %> 
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
           <ul class="navbar-nav"> 
             <% if (user_data) { %>
-              <li class="nav-item">
-                <a href="/dashboard/dashboard" class="nav-link">Dashboard</a>
-              </li>
               <li class="nav-item">
                 <a href="/user/face-detection" class="nav-link">Save/Update Face</a>
               </li>
