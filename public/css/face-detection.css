@@ -6,6 +6,16 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    margin: auto;
+}
+
+.face_detection_body video{
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(14,21,47,0.35);
+}
+
+.margin{
+    margin-top: -100px;
 }
 
 canvas{
@@ -18,4 +28,13 @@ canvas{
 
 .hidden{
     display: none;
+}
+
+@media only screen and (max-width: 764px){
+    .face_detection_body video{
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(14,21,47,0.35);
+        width: 70%;
+        height: 50%;
+    }
 }

@@ -7,3 +7,9 @@
     margin-top: 30px;
     /* margin-bottom: 25px !important; */
 }
+
+.table>tbody>tr.no-border>td,
+.table>tbody>tr.no-border>th,
+.table>thead>tr.no-border>th {
+  border-top: none;
+}

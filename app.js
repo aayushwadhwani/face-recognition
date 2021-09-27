@@ -118,7 +118,7 @@ app.get('/user/face-detection',isAuth,async (req,res)=>{
     const id = req.session.isAuth.id;
     const user = await registerModel.findOne({_id:id});
     const account_number = user.account_number;
-    res.render('user/face-detection',{account_number});
+    res.render('user/face-detection',{account_number,user_data:true});
 });
 
 app.post('/user/face-detection',isAuth,async(req,res)=>{
@@ -254,7 +254,7 @@ app.get('/payment/history',isAuth,async (req,res)=>{
         temp.push(data);
         data_to_send = temp;
     }
-    res.render('payment/history',{transaction_history: data_to_send,user_data:true});
+    res.render('payment/history',{transaction_history: data_to_send,user_data:{first_name: user_data.first_name, last_name: user_data.last_name, current_balance: user_data.current_balance}});
 });
 
 app.get('/payment/faceDetection',isAuth,async (req,res)=>{
