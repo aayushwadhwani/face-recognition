@@ -1,29 +1,150 @@
 <%- include('../templates/navbar'); %> 
-<form action="/user/signup" method="POST">
-    <input type="text" name="first_name" placeholder="first_name">
-    <br>
-    <input type="text" name="last_name" id="" placeholder="last_name">
-    <br>
-    <input type="number" name="mobile_number" placeholder="mobile_number">
-    <br>
-    <select name="gender" id="gender">
-        <option value="male">Male</option>
-        <option value="Female">Female</option>
-        <option value="others">Others</option>
-    </select>
-    <br>
-    <input type="number" name="age" id="" placeholder="age">
-    <br>
-    <input type="email" name="email" id="" placeholder="email">
-    <br>
-    <input type="number" name="account_number" id="" placeholder="account number">
-    <br>
-    <input type="password" name="password" id="" placeholder="***">
-    <br>
-    <input type="password" name="confirm_password" id="" placeholder="confirm ***">
-    <br>
-    <input type="number" name="pin" id="" placeholder="pin">
-    <br>
-    <input type="submit" name="add" value="ADD">
-</form> 
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-12 col-md-6 p-5 ml-3">
+            <div class="container container-signup">
+                <form action="/user/signup" method="POST" class="">
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="first_name">First Name</label>
+                            <input type="text" name="first_name" placeholder="first_name" id="first_name" class="form-control" required
+                                <% if(previous_data && previous_data.first_name){ %>
+                                    value="<%= previous_data.first_name %>"
+                                <% } %>  
+                            >
+                            <% if(errors && errors.first_name){ %>
+                                <p class="text-warning"><%= errors.first_name %></p>
+                            <% } %>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="last_name">Last Name</label>
+                            <input type="text" name="last_name" id="last_name" placeholder="last_name" class="form-control"
+                                <% if(previous_data && previous_data.last_name){ %>
+                                    value="<%= previous_data.last_name %>"
+                                <% } %>
+                            >
+                            <% if(errors && errors.last_name){ %>
+                                <p class="text-warning"><%= errors.last_name %></p>
+                            <% } %>
+                        </div>
+                        <div class="form-group col-12">
+                            <label for="mobile_number">Mobile Number</label>
+                            <input type="number" name="mobile_number" id="mobile_number" placeholder="mobile_number" class="form-control" required
+                                <% if(previous_data && previous_data.mobile_number){ %>
+                                    value="<%= previous_data.mobile_number %>"
+                                <% } %>
+                            >
+                            <% if(errors && errors.mobile_number) { %>
+                                <p class="text-warning"><%= errors.mobile_number %></p>
+                            <% } %>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="age">Age</label>
+                            <input type="number" name="age" id="age" placeholder="age" class="form-control" required
+                                <% if(previous_data && previous_data.age){ %>
+                                    value="<%= previous_data.age %>"
+                                <% } %>
+                            >
+                            <% if(errors && errors.age) { %>
+                                <p class="text-warning"><%= errors.age %></p>
+                            <% } %>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="gender">Gender</label>
+                            <select name="gender" id="gender" class="form-control" required>
+                                <option value="male"
+                                <% if(previous_data && previous_data.gender){ %>
+                                    <% if(previous_data.gender == 'male'){ %>
+                                        selected
+                                    <% } %>  
+                                <% } %> 
+                                >Male</option>
+                                <option value="Female"
+                                <% if(previous_data && previous_data.gender){ %>
+                                    <% if(previous_data.gender == 'Female'){ %>
+                                        selected
+                                    <% } %>   
+                                <% } %> 
+                                >Female</option>
+                                <option value="others"
+                                <% if(previous_data && previous_data.gender){ %>
+                                    <% if(previous_data.gender == 'others'){ %>
+                                        selected
+                                    <% } %>  
+                                <% } %>  
+                                >Others</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-12">
+                            <label for="email">Email</label>
+                            <input type="email" name="email" id="email" placeholder="email" class="form-control" required
+                                <% if(previous_data && previous_data.email){ %>
+                                    value="<%= previous_data.email %>"
+                                <% } %>
+                            >
+                            <% if(errors && errors.email) { %>
+                                <p class="text-warning"><%= errors.email %></p>
+                            <% } %>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="account_number">Account Number</label>
+                            <input type="number" name="account_number" id="account_number" placeholder="account number" class="form-control" required
+                                <% if(previous_data && previous_data.account_number){ %>
+                                    value="<%= previous_data.account_number %>"
+                                <% } %>
+                            >
+                            <% if(errors && errors.account_number) { %>
+                                <p class="text-warning"><%= errors.account_number %></p>
+                            <% } %>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="pin">Pin</label>
+                            <input type="number" name="pin" id="pin" placeholder="pin" class="form-control" required
+                                <% if(previous_data && previous_data.pin){ %>
+                                    value="<%= previous_data.pin %>"
+                                <% } %>
+                            >
+                            <% if(errors && errors.pin) { %>
+                                <p class="text-warning"><%= errors.pin %></p>
+                            <% } %>
+                        </div>
+                        <div class="form-group col-12">
+                            <label for="password">Password</label>
+                            <input type="password" name="password" id="password" placeholder="***" class="form-control" required
+                            <% if(previous_data && previous_data.password){ %>
+                                value="<%= previous_data.password %>"
+                            <% } %>
+                            >
+                            <% if(errors && errors.password) { %>
+                                <p class="text-warning"><%= errors.password %></p>
+                            <% } %>
+                        </div>
+                        <div class="col-12 form-group">
+                            <label for="confirm_password">Confirm Password</label>
+                            <input type="password" name="confirm_password" id="confirm_password" placeholder="confirm ***" class="form-control" required
+                            <% if(previous_data && previous_data.confirm_password){ %>
+                                value="<%= previous_data.confirm_password %>"
+                            <% } %>
+                            >
+                            <% if(errors && errors.confirm_password) { %>
+                                <p class="text-warning"><%= errors.confirm_password %></p>
+                            <% } %>
+                        </div>
+                        <div class="col-12 text-center">
+                            <input type="submit" name="add" value="Signup" class="btn btn-outline-primary">
+                        </div>
+                    </div>
+                </form> 
+            </div>
+            <div class="container-fluid form-login">
+                <p class="signup-text"> Already have an Account. <a href="/user/login">Login</a></p>
+            </div>
+        </div>
+        <div class="col image_section_homepage">
+            <div class="image_homepage image_section_signup">
+                <img src="/public/images/signup.svg" alt="homepage">
+            </div>
+        </div>
+    </div>
+</div> 
 <%- include('../templates/footer'); %> 

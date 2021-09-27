@@ -24,7 +24,7 @@ const isAuth = (req,res,next)=>{
     if(req.session.isAuth){
         next();
     }else{
-        res.redirect('/user/signup');
+        res.redirect('/user/login');
     }
 };
 app.use(session({
@@ -47,7 +47,7 @@ app.get('/',(req,res)=>{
 
 //user section
 app.get('/user/signup',(req,res)=>{
-    res.render('user/sign_up');
+    res.render('user/sign_up',{errors:false,previous_data:false});
 });
 
 app.get('/user/login',(req,res)=>{
@@ -56,7 +56,11 @@ app.get('/user/login',(req,res)=>{
 
 app.post('/user/signup',async (req,res)=>{
     let errors = {};
+    let str = '  sw';
     const {first_name,last_name,mobile_number,gender,age,email,account_number,password,confirm_password,pin}= req.body;
+    if(first_name.trim().length == 0){
+        errors['first_name'] = 'First name Cannot be empty';
+    }
     if(mobile_number.length != 10){
         errors['mobile_number'] = 'Mobile Number should be 10 digits long';
     }
@@ -70,7 +74,7 @@ app.post('/user/signup',async (req,res)=>{
         errors['password'] = 'Password should have atleast 8 characters';
     }
     if(password != confirm_password){
-        errors['password'] = 'Password and Confirm password Did not match';
+        errors['confirm_password'] = 'Password and Confirm password Did not match';
     }
     if(pin.length != 4){
         errors['pin'] = 'Pin has to 4 ditis long';
@@ -79,11 +83,11 @@ app.post('/user/signup',async (req,res)=>{
         registerModel.findOne({email: email}).then(user=>{
             if(user){
                 errors['email'] = 'User Already exists'
-                res.render('user/sign_up');
+                res.render('user/sign_up',{errors,previous_data:req.body});
             }else{
                 registerModel.findOne({account_number: account_number}).then(user=>{
                     if(user){
-                        res.render('user/sign_up');
+                        res.render('user/sign_up',{errors,previous_data:req.body});
                     };
                 });
                 const newUser = new registerModel({
@@ -105,7 +109,7 @@ app.post('/user/signup',async (req,res)=>{
             }
         });
     }else{
-        res.render('user/sign_up');
+        res.render('user/sign_up',{errors,previous_data:req.body});
     }
 });
 
@@ -122,7 +126,7 @@ app.post('/user/face-detection',isAuth,async(req,res)=>{
     res.redirect('/dashboard/dashboard');
 });
 
-app.post('/user/login',async (req,res)=>{y
+app.post('/user/login',async (req,res)=>{
     const {email, password} = req.body;
     let user = await registerModel.findOne({email});
     let errors = {};

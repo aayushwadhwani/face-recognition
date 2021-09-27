@@ -18,6 +18,15 @@
 }
 
 .signup-text a:hover{
-    color: #ced2dc;
+    color: #b5b9c4;
 
+}
+
+.container-signup{
+    margin-top: -5%;
+    margin-left: -2%;
+}
+
+input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-spin-button { 
+    -webkit-appearance: none;
 }
