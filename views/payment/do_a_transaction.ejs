@@ -1,49 +1,69 @@
 <%- include('../templates/navbar'); %> 
-<h1>
-    Hie <%= user_data.first_name %> <%= user_data.last_name %>  
-</h1>
-<h3>
-    your current balance is <%= user_data.current_balance %> 
-</h3>
-
-
-<form action="/payment/makeTransaction" method="POST">
-    <input type="hidden" name="sender_id" value="<%=  user_data._id %>">
-    <label for="sender_email">
-        Your Email
-    </label>
-    <input type="email" name="sender_email" id="sender_email" value="<%= user_data.email%>" readonly> <br>
-    <label for="sender_account_number">
-        Your account number
-    </label>
-    <input type="number" name="sender_account_number" id="sender_account_number" value="<%= user_data.account_number%>" readonly> <br>
-    <label for="reciever_account_number">
-        Account number of Reciever
-    </label>
-    <input type="number" name="reciever_account_number" id="reciever_account_number" >
-    <p>
-        <% if (errors && errors.reciever_account_number != 'undefned') { %>
-            <%= errors.reciever_account_number %> 
-        <% } %>
-    </p>
-    <label for="amount">
-        amount
-    </label>
-    <input type="number" name="amount" id="amount" value="1">
-    <p>
-        <% if (errors && errors.amount) { %>
-            <%= errors.amount %> 
-        <% } %>
-    </p>
-    <label for="pin">
-        Pin
-    </label>
-    <input type="password" name="pin" id="pin" value=""> <br>
-    <p>
-        <% if (errors && errors.pin) { %>
-            <%= errors.pin %> 
-        <% } %>
-    </p>
-    <input type="submit" name="doAtransaction" id="" value="Through Pin">
-</form>
+<div class="d-flex align-content-center flex-wrap">
+    <div class="card w-50 mx-auto my-5">
+        <h5 class="card-header">Details</h5>
+        <div class="card-body">
+          <h5 class="card-title"><%= user_data.first_name %> <%= user_data.last_name %></h5>
+          <p class="card-text">You have Rs.<%= user_data.current_balance %> in your Account</p>
+          <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
+        </div>
+    </div>
+</div>
+<div class="container w-50 text-center">
+    <form action="/payment/makeTransaction" method="POST">
+        <input type="hidden" name="sender_id" value="<%=  user_data._id %>">
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label for="sender_email">
+                    Your Email
+                </label>
+                <input type="email" name="sender_email" id="sender_email" value="<%= user_data.email%>" class="form-control"readonly>
+            </div>
+            <div class="form-group col-md-6">
+                <label for="sender_account_number">
+                    Your account number
+                </label>    
+                <input type="number" name="sender_account_number" id="sender_account_number" value="<%= user_data.account_number%>" readonly class="form-control">
+            </div>
+            <div class="form-group col-12">
+                <label for="reciever_account_number">
+                    Account number of Reciever
+                </label>
+                <input type="number" name="reciever_account_number" id="reciever_account_number" class="form-control" required
+                    <% if (previous_data && previous_data.reciever_account_number) { %>
+                        value="<%= previous_data.reciever_account_number %>"
+                    <% } %>
+                >
+                <% if (errors && errors.reciever_account_number != 'undefned') { %>
+                    <p class="text-warning"><%= errors.reciever_account_number %></p>
+                <% } %>
+            </div>
+            <div class="form-group col-md-6">
+                <label for="amount">
+                    Amount
+                </label>
+                <input type="number" name="amount" id="amount" required class="form-control"
+                    <% if (previous_data && previous_data.amount) { %>
+                        value="<%= previous_data.amount %>"
+                    <% } %>
+                >
+                    <% if (errors && errors.amount) { %>
+                        <p class="text-warning"><%= errors.amount %></p> 
+                    <% } %>
+            </div>
+            <div class="form-group col-md-6">
+                <label for="pin">
+                    Pin
+                </label>
+                <input type="password" name="pin" id="pin" value="" class="form-control" required>
+                    <% if (errors && errors.pin) { %>
+                        <p class="text-warning"><%= errors.pin %></p>
+                    <% } %>
+            </div>
+            <div class="col-12">
+                <input type="submit" name="doAtransaction" id="" value="Through Pin" class="btn btn-outline-primary">
+            </div>
+        </div>
+    </form>
+</div>
 <%- include('../templates/footer'); %>   

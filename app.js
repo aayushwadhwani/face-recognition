@@ -185,10 +185,7 @@ app.get('/payment/makeTransaction',isAuth,async (req,res)=>{
     const id_obj = req.session.isAuth.id;
     const user_data = await registerModel.findOne({_id: id_obj});
     // console.log(user_data);
-    if(user_data.face_url){
-        is_there = true;
-    }
-    res.render('payment/do_a_transaction',{errors:false,user_data,is_there});
+    res.render('payment/do_a_transaction',{errors:false,user_data,previous_data:false});
 });
 
 app.post('/payment/makeTransaction',async (req,res)=>{
@@ -216,7 +213,7 @@ app.post('/payment/makeTransaction',async (req,res)=>{
         errors['pin'] = 'Wrong Pin';
     }
     if(Object.keys(errors).length > 0){
-        res.render('payment/do_a_transaction',{user_data: sender_data,errors});
+        res.render('payment/do_a_transaction',{user_data: sender_data,errors,previous_data:req.body});
     }else{
         const modified_sender_amount = Number(sender_data.current_balance) - Number(amount);
         const modified_reciever_amount = Number(reciever_data.current_balance) + Number(amount);
