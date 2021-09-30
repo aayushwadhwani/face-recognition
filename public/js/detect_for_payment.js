@@ -67,4 +67,4 @@ capture.addEventListener('click',async ()=>{
         can_do_transaction.value = 'false';
     }
     submit.click();
-})
+});

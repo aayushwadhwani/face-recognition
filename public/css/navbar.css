@@ -1,21 +1,23 @@
 body{
-    background-color: #40798C;
+    background-color: #A8E7E9;
     /* color: #ced2dc; */
 }
+/* A8E7E9 40798C*/
 
 nav{
     font-size: 20px;
 }
 
 .btn-outline-primary:hover{
-    background-color: #ced2dc;
-    border-color: black;
-    color: black;
+    background-color: #345B63;
+    border-color: white;
+    color: white;
 }
 
 .btn-outline-primary{
-    border-color: #ced2dc;
-    color: #ced2dc;
+    border-color: #345B63;
+    color: #345B63;
+    font-weight: bolder;
 }
 
 .btn{
